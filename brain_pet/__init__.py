@@ -1,0 +1,1 @@
+"""Brain Pet desktop replacement."""
