@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+
+# User data (settings live in %APPDATA%/brain-pet/ now, not here)
+settings.json
+
+# OS
+.DS_Store
+Thumbs.db
