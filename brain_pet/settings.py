@@ -1,13 +1,28 @@
 from __future__ import annotations
 
 import json
+import os
+import sys
 from copy import deepcopy
 from pathlib import Path
 
 from .constants import APP_CATEGORIES
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-SETTINGS_PATH = BASE_DIR / "settings.json"
+
+def _data_dir() -> Path:
+    """Return a writable, platform-appropriate directory for app data."""
+    if sys.platform == 'win32':
+        base = Path(os.environ.get('APPDATA', Path.home()))
+    elif sys.platform == 'darwin':
+        base = Path.home() / 'Library' / 'Application Support'
+    else:
+        base = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config'))
+    d = base / 'brain-pet'
+    d.mkdir(parents=True, exist_ok=True)
+    return d
+
+
+SETTINGS_PATH = _data_dir() / 'settings.json'
 
 DEFAULT_SETTINGS: dict = {
     # window

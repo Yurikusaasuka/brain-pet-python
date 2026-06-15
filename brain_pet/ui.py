@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import math
+import sys
 import time
 import tkinter as tk
 from dataclasses import dataclass
@@ -48,6 +49,8 @@ def _try_font(size: int) -> 'ImageFont.ImageFont':
         'C:/Windows/Fonts/arial.ttf',
         '/System/Library/Fonts/PingFang.ttc',
         '/System/Library/Fonts/Helvetica.ttc',
+        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
     ]
     for path in candidates:
         if Path(path).exists():
@@ -56,6 +59,12 @@ def _try_font(size: int) -> 'ImageFont.ImageFont':
             except Exception:
                 pass
     return ImageFont.load_default(size=size)
+
+
+_UI_FONT: str = {
+    'win32':  'Microsoft YaHei',
+    'darwin': 'PingFang SC',
+}.get(sys.platform, 'Noto Sans CJK SC')
 
 
 @dataclass
@@ -755,7 +764,7 @@ class BrainPetApp:
             btn = tk.Button(
                 self.canvas,
                 text=label,
-                font=('Microsoft YaHei', 9),
+                font=(_UI_FONT, 9),
                 bg='#2C3E50',
                 fg='#ECF0F1',
                 activebackground='#34495E',
@@ -804,7 +813,7 @@ class BrainPetApp:
         btn = tk.Button(
             self.canvas,
             text=label_text,
-            font=('Microsoft YaHei', 10, 'bold'),
+            font=(_UI_FONT, 10, 'bold'),
             bg='#1A5276',
             fg='#FDFEFE',
             activebackground='#2E86C1',
@@ -945,7 +954,7 @@ class BrainPetApp:
         except ImportError:
             ttk = tk  # type: ignore
 
-        FONT = 'Microsoft YaHei'
+        FONT = _UI_FONT
         pom = self.settings.get('pomodoro', {})
         pad = {'padx': 14, 'pady': 5}
 
@@ -1063,7 +1072,7 @@ class BrainPetApp:
         win.configure(bg='#FAFAFA')
         win.attributes('-topmost', False)
 
-        FONT = 'Microsoft YaHei'
+        FONT = _UI_FONT
         today = ds.get('date', '—')
         first_act = ds.get('first_activation_time', '—')
 
